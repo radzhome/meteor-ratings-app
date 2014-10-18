@@ -1,9 +1,15 @@
 Meteor.startup(function () { // code to run on server at startup
+        //Ratings.remove({}); // remove all ratings on reload
         return Meteor.methods({
 
             removeAllRatings: function () {
                 console.log("Removing all Ratings.");
                 return Ratings.remove({});
+
+            },
+            removeAllAverageRatings: function () {
+                //console.log("Removing all Average Ratings.");
+                return AverageRatings.remove({});
 
             }
         });

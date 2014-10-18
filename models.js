@@ -8,9 +8,12 @@ AverageRatings = new Meteor.Collection('average_ratings');
 
 /* Insert into defined collection
 
-Ratings.insert({name: "Alex", rating: 8, time: Date.now()});
+Ratings.insert({"name": "Alex", rating: 8, time: Date.now()});
 Ratings.insert({name: "Jerry", rating: 7, time: Date.now()});
 Ratings.insert({name: "Rad", rating: 9, time: Date.now()});
 Ratings.insert({name: "Max", rating: 10, time: Date.now()});
+
+
+AverageRatings.insert({ "time": Date.now(), "average": 8.5, "median": 7.4, "count": 15 });
 
  */

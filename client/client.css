@@ -1,0 +1,55 @@
+/*@import "css/bootstrap.min.css";
+@import "css/bootstrap-theme.min.css";*/
+
+.navbar.navbar-default {
+    background-color: #f8f8f8;
+    border-color: #e7e7e7;
+}
+h1.app-title{
+    padding-left: 5px;
+}
+
+.stylish-well-1{
+    padding-left: 15px;
+    border-radius: 4px 4px 30px 4px;
+    /*padding: 4px;*/
+    border: 1px solid #dddddd;
+    box-shadow: 3px 3px 5px 0px #cccccc;
+    margin-bottom: 15px;
+}
+
+
+.stylish-header-div-1 {
+    font-size: 24px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #e3e3e3;
+    border-bottom-right-radius: 15px;
+    border-right: 1px solid #e3e3e3;
+    background-color: #f8f8f8;
+    text-align: left;
+    margin-left: -15px;
+    margin-top: 1px;
+    padding-left: 15px;
+}
+.stylish-well-inner{
+    padding: 20px;
+}
+
+.margin-top-15{
+    margin-top: 15px;
+}
+
+.rating .well{
+    cursor: pointer;
+}
+.rating .well:hover{
+    background-color: #C7C7C7;
+}
+.rating-value{
+    font-size: 24px;
+    line-height: 12px;
+}
+.force-transparency{
+    background: transparent !important;
+}

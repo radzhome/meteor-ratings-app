@@ -29,7 +29,14 @@ Template.ratings.helpers({
 
         return Ratings.find({}, { sort: { rating: -1 }});
 
-    },
+    }
+});
+Template.historic_ratings.helpers({
+    historic_ratings: function (){
+        return AverageRatings.find({}, { sort: { time: -1}});
+    }
+});
+Template.input_buttons.helpers({
     averages: function () {
 
         var count = Ratings.find().count();
@@ -74,22 +81,54 @@ Template.ratings.helpers({
 
 
 Template.ratings.events({
-    'click button.delete-all': function () {
-        Meteor.call('removeAllRatings')
-    },
-    'click button.save': function () {
-        Meteor.call('removeAllRatings')
-    },
     'click div.rating': function(event){
         console.log('Removed rating id', event.currentTarget.id)
         Ratings.remove({'_id': event.currentTarget.id })
     }
 });
 
+Template.historic_ratings.events({
+    'click tr.historic-rating': function(event){
+        console.log('Removed rating id', event.currentTarget.id)
+        AverageRatings.remove({'_id': event.currentTarget.id })
+    }
+});
+
+Template.input_buttons.events({
+    'click button.delete-all': function () {
+        Meteor.call('removeAllRatings')
+    },
+    'click button.save': function () {
+        var average = parseFloat(document.getElementById('day-average').getAttribute('data-val')).toFixed(2);
+        var median = parseFloat(document.getElementById('day-median').getAttribute('data-val')).toFixed(2);
+        var count = parseInt(document.getElementById('day-count').getAttribute('data-val'));
+
+        AverageRatings.insert({
+            "time": Date.now(),
+            "average": average,
+            "median": median,
+            "count": count
+        });
+        Meteor.call('removeAllRatings');
+        $('.ratings-status').html('<div class="alert alert-success">Data Saved!</div>')
+    }
+});
+
+Template.historic_ratings.events({
+   'click button.delete-all-avg': function(){
+       Meteor.call('removeAllAverageRatings')
+   }
+});
 
 Template.input.events = {
+    'keydown input#name': function (event) {
+        if (event.which == 13) {
+            document.getElementById('rating').focus();
+        }
+    },
     'keydown input#rating': function (event) {
         if (event.which == 13) { // 13 is the enter key event
+            $('.ratings-status').text('')  // reset status
             var name = document.getElementById('name');
             var rating = document.getElementById('rating');
 
@@ -101,7 +140,7 @@ Template.input.events = {
                     name.value = 'Anon'
                 }
                 Ratings.insert({
-                    name: name.value,
+                    name: name.value.substring(0, 15).trim(),
                     rating: rating.value,
                     time: Date.now()
                 });

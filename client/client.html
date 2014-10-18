@@ -3,9 +3,11 @@
 </head>
 
 <body>
-<h1>Rating App</h1>
+<div class="navbar navbar-default">
+    <h1 class="app-title">Rating App</h1>
+</div>
 
-<div class="container">
+<div class="container stylish-well-1">
     <div class="row">
         <div class="col-md-6">
             {{> greeting}}
@@ -13,68 +15,173 @@
 
         <div class="col-md-6 text-right">
             {{> help}}
+            {{> historic_ratings}}
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-md-12">
-            {{> input}}
-
+    <div class="stylish-well-inner">
+        <div class="row">
+            <div class="col-md-12">
+                {{> input}}
+            </div>
+        </div>
+        <div class="row">
             {{> ratings}}
         </div>
-
+        <div class="row row-input-buttons">
+            {{> input_buttons }}
+            <div class="col-md-12">
+                <div class="ratings-status"></div>
+            </div>
+        </div>
     </div>
+
 </div>
 </body>
 
 <!-- Greeting template -->
 <template name="greeting">
-    <p>Welcome to the rating system.. Ratings for {{formatDate todays_date "short"}}</p>
-
+    <div class="stylish-header-div-1">Add Ratings for {{formatDate todays_date "short"}}</div>
 </template>
 
 <!-- Rating Display template -->
 <template name="ratings">
+
     {{ #each ratings }}
-    <div class="rating" id="{{_id}}">{{ #if name }}<strong>{{name}}:</strong>{{ /if }}{{rating}}</div>
+    <div class="col-md-3 col-sm-4 col-xs-6 rating" id="{{_id}}">
+        <div class="well">
+            {{ #if name }}<strong>{{name}}:</strong>{{ /if }}<span class="rating-value"> {{rating}}</span>
+        </div>
+    </div>
+    {{ else }}
+        <div class="col-md-12">
+            <div class="well">
+            Nothing to show.
+            </div>
+        </div>
     {{ /each }}
 
+</template>
+
+<!-- Input Buttons template -->
+<template name="input_buttons">
+    <!-- also displays alert with averages and count -->
     {{ #if averages.[0] }}
-    <div class="col-md-6">Average: {{averages.[0]}}, Count: {{averages.[1]}}, Median: {{averages.[2]}}</div>
     <div class="col-md-6">
-        <button class="btn btn-primary delete-all">Clear</button>
-        <button class="btn btn-danger save">Save</button>
+        <div class="alert alert-success" role="alert">
+            Average: <span id="day-average" data-val="{{averages.[0]}}">{{averages.[0]}}</span>,
+            Count: <span id="day-count" data-val="{{averages.[1]}}">{{averages.[1]}}</span>,
+            Median: <span id="day-median" data-val="{{averages.[2]}}">{{averages.[2]}}</span>
+        </div>
+    </div>
+    <div class="col-md-6 text-right">
+        <button class="btn btn-danger delete-all btn-lg"><span class="glyphicon glyphicon-remove"></span> Clear</button>
+        <button class="btn btn-primary save btn-lg"><span class="glyphicon glyphicon-save"></span> Save</button>
     </div>
     {{/if}}
-
 </template>
 
 <!-- Input template -->
 <template name="input">
-    <p>Name: <input type="text" id="name"></p>
 
-    <p>Rating: <input type="number" min=1 max=10 id="rating"></p>
+    <div class="row">
+        <div class="form-group col-sm-6 col-md-6 col-lg-6"><label for="name">Name</label> <input class="form-control"
+                                                                                                 maxlength="15"
+                                                                                                 type="text" id="name">
+        </div>
+        <div class="form-group col-sm-6 col-md-6 col-lg-6"><label for="rating">Rating</label> <input
+                class="form-control" type="number" min=1 max=10 id="rating"></div>
+    </div>
+
 </template>
 
 <template name="help">
     <!-- Button trigger modal -->
-    <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+    <button class="btn btn-primary btn-lg margin-top-15" data-toggle="modal" data-target="#myModal">
         <span class="glyphicon glyphicon-question-sign"></span> Help
     </button>
-
     <!-- Modal -->
-    <div class="modal fade text-center" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal fade text-center" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal"><span
-                            aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                     <h4 class="modal-title" id="myModalLabel">Rating Help</h4>
                 </div>
                 <div class="modal-body">
-                    This app was built in Meteor. The purpose of the app is to calculate and track weekly ratings.
+                    <img class="img" src="assets/img/Actions-rating-icon.png"/><br><br>
+                    <p>
+                        This app was built in Meteor. The purpose of the app is to calculate and track weekly ratings.
+                    </p>
+                    <img class="img" src="assets/img/5-star-rating.png"/><br><br>
+
+                    <p>
+                        To use this app, start adding user ratings. The name is optional. Once done, save the result.
+                        Saved results can be viewed using the history button. The clear button clears the currently displayed
+                        results.
+                    </p>
+
                 </div>
                 <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template name="historic_ratings">
+    <!-- Button trigger modal -->
+    <button class="btn btn-primary btn-lg margin-top-15" data-toggle="modal" data-target="#historicModal">
+        <span class="glyphicon glyphicon-search"></span> History
+    </button>
+    <!-- Modal -->
+    <div class="modal fade text-center" id="historicModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title" id="historicModalLabel">Rating History</h4>
+                </div>
+                <div class="modal-body">
+
+                        <table class="table table-hover table-responsive">
+                            <thead>
+                            <tr>
+                                <td>Date</td>
+                                <td>Average</td>
+                                <td>Median</td>
+                                <td>Count</td>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {{ #each historic_ratings }}
+                            <tr id="{{_id}}" class="historic-rating">
+                                <td>{{formatDate time "short"}}</td>
+                                <td>{{ average }}</td>
+                                <td>{{ median }}</td>
+                                <td>{{ count}}</td>
+                            </tr>
+                            {{ else }}
+
+                                <tr><td colspan="4" class="force-transparency">
+                                <div class="well margin-top-15">
+                                Nothing to show.
+                                </div></td></tr>
+                            {{ /each }}
+
+                            </tbody>
+                        </table>
+
+                </div>
+                <div class="modal-footer">
+                    {{ #if historic_ratings.count }}
+                    <button class="btn btn-danger delete-all-avg"><span class="glyphicon glyphicon-remove"></span> Delete</button>
+                    {{ /if }}
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                 </div>
             </div>
