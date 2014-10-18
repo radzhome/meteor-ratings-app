@@ -5,4 +5,7 @@
 
 meteor-platform
 autopublish
+mrt:moment
 insecure
+mizzao:bootstrap-3
+

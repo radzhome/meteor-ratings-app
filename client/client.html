@@ -1,40 +1,83 @@
 <head>
-  <title>Score Keeper Rating App</title>
+    <title>Score Keeper Rating App</title>
 </head>
 
 <body>
-  <h1>Rating App</h1>
+<h1>Rating App</h1>
 
-  {{> greeting}}
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            {{> greeting}}
+        </div>
 
-  {{> input}}
+        <div class="col-md-6 text-right">
+            {{> help}}
+        </div>
+    </div>
 
-  {{> ratings}}
+    <div class="row">
+        <div class="col-md-12">
+            {{> input}}
 
+            {{> ratings}}
+        </div>
 
+    </div>
+</div>
 </body>
 
-<!-- first template -->
+<!-- Greeting template -->
 <template name="greeting">
+    <p>Welcome to the rating system.. Ratings for {{formatDate todays_date "short"}}</p>
 
-  <p>Welcome.</p>
 </template>
 
-<!-- 2ND template -->
+<!-- Rating Display template -->
 <template name="ratings">
-  {{#each ratings}}
-    {{#if name}}<strong>{{name}}:</strong>{{/if}}{{rating}}<br>
-  {{/each}}
+    {{ #each ratings }}
+    <div class="rating" id="{{_id}}">{{ #if name }}<strong>{{name}}:</strong>{{ /if }}{{rating}}</div>
+    {{ /each }}
 
-  <div class="col-md-6">Average: {{avg}}, Median: {{#each midpt}}{{rating}}{{/each}}</div>
-  <div class="col-md-6">
-      <button class="btn btn-primary">Clear</button>
-      <button class="btn btn-danger">Save as Todays</button>
-  </div>
+    {{ #if averages.[0] }}
+    <div class="col-md-6">Average: {{averages.[0]}}, Count: {{averages.[1]}}, Median: {{averages.[2]}}</div>
+    <div class="col-md-6">
+        <button class="btn btn-primary delete-all">Clear</button>
+        <button class="btn btn-danger save">Save</button>
+    </div>
+    {{/if}}
 
 </template>
 
+<!-- Input template -->
 <template name="input">
-  <p>Name: <input type="text" id="name"></p>
-  <p>Rating: <input type="number" id="rating"></p>
+    <p>Name: <input type="text" id="name"></p>
+
+    <p>Rating: <input type="number" min=1 max=10 id="rating"></p>
+</template>
+
+<template name="help">
+    <!-- Button trigger modal -->
+    <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+        <span class="glyphicon glyphicon-question-sign"></span> Help
+    </button>
+
+    <!-- Modal -->
+    <div class="modal fade text-center" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span
+                            aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Rating Help</h4>
+                </div>
+                <div class="modal-body">
+                    This app was built in Meteor. The purpose of the app is to calculate and track weekly ratings.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </template>
