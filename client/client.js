@@ -2,6 +2,8 @@
  * Templates- Template.template_name.template_var_name
  */
 
+Meteor.subscribe("theRatings", "theAverageRatings");
+
 var DateFormats = {
        short: "MMMM DD YYYY",
        long: "dddd MM.DD.YYYY HH:mm"

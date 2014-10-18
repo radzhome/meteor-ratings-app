@@ -4,8 +4,8 @@
 # but you can also edit it by hand.
 
 meteor-platform
-autopublish
 mrt:moment
-insecure
 mizzao:bootstrap-3
+insecure
+autopublish
 

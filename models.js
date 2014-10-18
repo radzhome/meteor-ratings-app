@@ -1,7 +1,7 @@
 /**
 * Models - exposed to both client and server
 */
-Ratings = new Meteor.Collection('ratings');
+Ratings = new Meteor.Collection('atings');
 AverageRatings = new Meteor.Collection('average_ratings');
 
 /* id, user, date, rating */

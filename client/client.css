@@ -4,6 +4,7 @@
 .navbar.navbar-default {
     background-color: #f8f8f8;
     border-color: #e7e7e7;
+    border-radius: 0px;
 }
 h1.app-title{
     padding-left: 5px;
@@ -52,4 +53,7 @@ h1.app-title{
 }
 .force-transparency{
     background: transparent !important;
+}
+.padding-right-30{
+    padding-right: 30px;
 }
