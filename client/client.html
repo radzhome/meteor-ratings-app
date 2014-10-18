@@ -1,0 +1,40 @@
+<head>
+  <title>Score Keeper Rating App</title>
+</head>
+
+<body>
+  <h1>Rating App</h1>
+
+  {{> greeting}}
+
+  {{> input}}
+
+  {{> ratings}}
+
+
+</body>
+
+<!-- first template -->
+<template name="greeting">
+
+  <p>Welcome.</p>
+</template>
+
+<!-- 2ND template -->
+<template name="ratings">
+  {{#each ratings}}
+    {{#if name}}<strong>{{name}}:</strong>{{/if}}{{rating}}<br>
+  {{/each}}
+
+  <div class="col-md-6">Average: {{avg}}, Median: {{#each midpt}}{{rating}}{{/each}}</div>
+  <div class="col-md-6">
+      <button class="btn btn-primary">Clear</button>
+      <button class="btn btn-danger">Save as Todays</button>
+  </div>
+
+</template>
+
+<template name="input">
+  <p>Name: <input type="text" id="name"></p>
+  <p>Rating: <input type="number" id="rating"></p>
+</template>
