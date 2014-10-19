@@ -1,1 +1,1 @@
-cd /var/web/meteor-ratings-app/; meteor
+cd /var/web/meteor-ratings-app/; meteor run -p 3000 --production
