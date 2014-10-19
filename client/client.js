@@ -2,7 +2,9 @@
  * Templates- Template.template_name.template_var_name
  */
 
-Meteor.subscribe("theRatings", "theAverageRatings");
+Meteor.subscribe("theRatings");
+Meteor.subscribe("theAverageRatings");
+//Meteor.subscribe("theSomeCollection");
 
 var DateFormats = {
        short: "MMMM DD YYYY",
@@ -26,37 +28,30 @@ Template.greeting.helpers({
 });
 
 Template.ratings.helpers({
-
     ratings: function () {
-
         return Ratings.find({}, { sort: { rating: -1 }});
-
     }
 });
+
 Template.historic_ratings.helpers({
     historic_ratings: function (){
         return AverageRatings.find({}, { sort: { time: -1}});
     }
 });
+
 Template.input_buttons.helpers({
     averages: function () {
-
         var count = Ratings.find().count();
         var sum = 0;
         var mid_index = parseInt(count/ 2)
         var mid = 0
         if (count > 0) {
-
-
             Ratings.find({}).forEach(
                 function (doc) {
-
                     sum += parseInt(doc.rating);
                 }
             );
-
             if (count % 2 == 0) { //even
-
                 console.log("even number")
                 var sum_mids = 0;
                 Ratings.find({}, { sort: { rating: 1 }, skip: mid_index - 1, limit: 2}).forEach(
@@ -65,13 +60,10 @@ Template.input_buttons.helpers({
                     }
                 );
                 mid = sum_mids / 2
-
             }
             else { //odd
-
                 var doc = Ratings.find({}, { sort: { rating: 1 }, skip: mid_index, limit: 1}).fetch()[0];
                 mid = doc.rating;
-
             }
             return [parseFloat(sum / count).toFixed(2), count, parseFloat(mid).toFixed(2)]
         }
@@ -80,7 +72,6 @@ Template.input_buttons.helpers({
         }
     }
 });
-
 
 Template.ratings.events({
     'click div.rating': function(event){
@@ -104,7 +95,6 @@ Template.input_buttons.events({
         var average = parseFloat(document.getElementById('day-average').getAttribute('data-val')).toFixed(2);
         var median = parseFloat(document.getElementById('day-median').getAttribute('data-val')).toFixed(2);
         var count = parseInt(document.getElementById('day-count').getAttribute('data-val'));
-
         AverageRatings.insert({
             "time": Date.now(),
             "average": average,
@@ -146,12 +136,10 @@ Template.input.events = {
                     rating: rating.value,
                     time: Date.now()
                 });
-
                 document.getElementById('rating').value = '';
                 rating.value = '';
                 document.getElementById('name').value = '';
                 name.value = '';
-
             }
         }
     }

@@ -41,7 +41,7 @@ h1.app-title{
     margin-top: 15px;
 }
 
-.rating .well{
+.rating .well, .historic-rating{
     cursor: pointer;
 }
 .rating .well:hover{

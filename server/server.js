@@ -1,3 +1,16 @@
+Meteor.publish("theRatings", function(){
+    return Ratings.find(); //({}, { sort: { rating: -1 }});
+});
+
+Meteor.publish("theAverageRatings", function(){
+    return AverageRatings.find(); //({}, { sort: { time: -1 }});
+});
+
+/*Meteor.publish("theSomeCollection", function(){
+    return SomeCollection.find();
+});*/
+
+
 Meteor.startup(function () { // code to run on server at startup
         //Ratings.remove({}); // remove all ratings on reload
         return Meteor.methods({
@@ -15,13 +28,6 @@ Meteor.startup(function () { // code to run on server at startup
         });
 });
 
-Meteor.publish("theRatings", function(){
-    Ratings.find(); //({}, { sort: { rating: -1 }});
-});
-
-Meteor.publish("theAverageRatings", function(){
-    AverageRatings.find(); //({}, { sort: { time: -1 }});
-});
 
 /* autopublish insecure meteor remove */
 /* then have to publish and subscribe */
