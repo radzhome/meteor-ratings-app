@@ -24,6 +24,8 @@ Features
 * Click to remove data
 * Quick input using keyboard
 * responsive gui
+* TODO: http://c3js.org/ add charting
+* TODO: add optional auth (login)
 
 Installation
 ============
