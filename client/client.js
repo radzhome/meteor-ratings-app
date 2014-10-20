@@ -92,8 +92,8 @@ Template.input_buttons.events({
         Meteor.call('removeAllRatings')
     },
     'click button.save': function () {
-        var average = parseFloat(document.getElementById('day-average').getAttribute('data-val')).toFixed(2);
-        var median = parseFloat(document.getElementById('day-median').getAttribute('data-val')).toFixed(2);
+        var average = parseFloat(document.getElementById('day-average').getAttribute('data-val'));
+        var median = parseFloat(document.getElementById('day-median').getAttribute('data-val'));
         var count = parseInt(document.getElementById('day-count').getAttribute('data-val'));
         AverageRatings.insert({
             "time": Date.now(),
@@ -133,7 +133,7 @@ Template.input.events = {
                 }
                 Ratings.insert({
                     name: name.value.substring(0, 15).trim(),
-                    rating: rating.value,
+                    rating: parseFloat(rating.value),
                     time: Date.now()
                 });
                 document.getElementById('rating').value = '';
