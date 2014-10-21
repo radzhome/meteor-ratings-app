@@ -38,56 +38,24 @@ Template.historic_ratings.helpers({
     historic_ratings: function (){
         return AverageRatings.find({}, { sort: { time: -1}});
     }
-//    generate_script: function(){
-//
-//        var ratings = AverageRatings.find({}, { sort: { time: -1}});
-//        var dates = "['x', "
-//        var f = DateFormats['standard'];
-//
-//        ratings.forEach(function(doc){
-//           dates +=  "'" + moment(doc.time).format('YYYY-MM-DD') + "'"
-//           dates += ","
-//        });
-//        dates += "]"
-//        console.log(dates)
-//        var script_string = "var chart = c3.generate({ bindto: '#chart'," +
-//            "data: {x: 'x'," +
-//            "  columns: [" +
-//                 "['x', '2014-10-18', ]" + "," +
-//                 //                 dates + "," +
-//                 "['data1', 30, ]," +
-//                 "['data2', 130, ]" +
-//            " ]" +
-//            "},axis: { x: { type: 'timeseries',  tick: { format: '%Y-%m-%d'}}}});"
-//
-//
-//
-//    //                                    setTimeout(function () {
-//    //                                        chart.load({
-//    //                                            columns: [
-//    //                                                ['data3', 400, 500, 450, 700, 600, 500]
-//    //                                            ]
-//    //                                        });
-//    //                                    }, 1000);
-//
-//        return new Handlebars.SafeString(script_string)
-//    }
 });
 
 Template.chart_cp_overview.rendered = function () {
-    //var ratings = AverageRatings.find({}, { sort: { time: -1}});
+
     var dates = ['x', ]
-    //var f = DateFormats['standard'];
-//    ratings.forEach(function(doc){
-//        dates.push(doc.time)
-//       //dates.push(moment(doc.time).format('YYYY-MM-DD'))
-//    });
+
+    Meteor.subscribe("AverageRatings", function() {
+
     AverageRatings.find({}, { sort: { time: -1 }}).forEach(
         function (doc) {
             dates.push(doc.time);
             console.log(dates)
         }
     );
+
+    });
+
+
 
     console.log(dates)
     var chart = c3.generate({
@@ -108,24 +76,8 @@ Template.chart_cp_overview.rendered = function () {
             }
         }
     });
-//var cpOverview = c3.generate({
-//    data: {
-//        columns: [
-//            ['data1', 30, 200],
-//            ['data2', 130, 100]
-//        ],
-//        type: 'bar',
-//        groups: [
-//            ['data1', 'data2']
-//        ]
-//    },
-//    grid: {
-//        y: {
-//            lines: [{value:0}]
-//        }
-//    }
-//});
 }
+
 Template.input_buttons.helpers({
     averages: function () {
         var count = Ratings.find().count();
