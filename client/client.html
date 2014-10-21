@@ -54,11 +54,11 @@
         </div>
     </div>
     {{ else }}
-        <div class="col-md-12">
-            <div class="well">
+    <div class="col-md-12">
+        <div class="well">
             Nothing to show.
-            </div>
         </div>
+    </div>
     {{ /each }}
 
 </template>
@@ -112,6 +112,7 @@
                 </div>
                 <div class="modal-body">
                     <img class="img" src="assets/img/Actions-rating-icon.png"/><br><br>
+
                     <p>
                         This app was built in Meteor. The purpose of the app is to calculate and track weekly ratings.
                     </p>
@@ -119,7 +120,8 @@
 
                     <p>
                         To use this app, start adding user ratings. The name is optional. Once done, save the result.
-                        Saved results can be viewed using the history button. The clear button clears the currently displayed
+                        Saved results can be viewed using the history button. The clear button clears the currently
+                        displayed
                         results.
                     </p>
 
@@ -142,6 +144,8 @@
          aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
+
+
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">
                         <span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
@@ -149,38 +153,66 @@
                 </div>
                 <div class="modal-body">
 
-                        <table class="table table-hover table-responsive">
-                            <thead>
-                            <tr>
-                                <td>Date</td>
-                                <td>Average</td>
-                                <td>Median</td>
-                                <td>Count</td>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {{ #each historic_ratings }}
-                            <tr id="{{_id}}" class="historic-rating">
-                                <td>{{formatDate time "short"}}</td>
-                                <td>{{ average }}</td>
-                                <td>{{ median }}</td>
-                                <td>{{ count}}</td>
-                            </tr>
-                            {{ else }}
+                    <div class="bs-history-tabs">
+                        <ul id="myTab" class="nav nav-tabs" role="tablist">
+                            <li class="active"><a href="#home" role="tab" data-toggle="tab">Table</a></li>
+                            <li class=""><a href="#profile" role="tab" data-toggle="tab">Graph</a></li>
 
-                                <tr><td colspan="4" class="force-transparency">
-                                <div class="well margin-top-15">
-                                Nothing to show.
-                                </div></td></tr>
-                            {{ /each }}
+                        </ul>
+                        <div id="myTabContent" class="tab-content">
+                            <div class="tab-pane fade active in" id="home">
+                                <table class="table table-hover table-responsive">
+                                    <thead>
+                                    <tr>
+                                        <td>Date</td>
+                                        <td>Average</td>
+                                        <td>Median</td>
+                                        <td>Count</td>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {{ #each historic_ratings }}
+                                    <tr id="{{_id}}" class="historic-rating">
+                                        <td>{{formatDate time "short"}}</td>
+                                        <td>{{ average }}</td>
+                                        <td>{{ median }}</td>
+                                        <td>{{ count}}</td>
+                                    </tr>
+                                    {{ else }}
 
-                            </tbody>
-                        </table>
+                                    <tr>
+                                        <td colspan="4" class="force-transparency">
+                                            <div class="well margin-top-15">
+                                                Nothing to show.
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    {{ /each }}
+
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="tab-pane fade" id="profile">
+                                <script>
+
+                                {{ generate_script }}
+
+
+                                </script>
+                                <div id="chart"></div>
+                            </div>
+
+                        </div>
+                    </div>
+
 
                 </div>
+
                 <div class="modal-footer">
                     {{ #if historic_ratings.count }}
-                    <button class="btn btn-danger delete-all-avg"><span class="glyphicon glyphicon-remove"></span> Delete</button>
+                    <button class="btn btn-danger delete-all-avg"><span class="glyphicon glyphicon-remove"></span>
+                        Delete
+                    </button>
                     {{ /if }}
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                 </div>

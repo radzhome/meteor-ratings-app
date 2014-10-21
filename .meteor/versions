@@ -33,12 +33,14 @@ mongo@1.0.7
 mrt:moment@2.8.1
 observe-sequence@1.0.3
 ordered-dict@1.0.1
+peernohell:c3@1.0.0
 random@1.0.1
 reactive-dict@1.0.4
 reactive-var@1.0.3
 reload@1.1.1
 retry@1.0.1
 routepolicy@1.0.2
+sergeyt:d3@3.4.1
 session@1.0.3
 spacebars-compiler@1.0.3
 spacebars@1.0.3
