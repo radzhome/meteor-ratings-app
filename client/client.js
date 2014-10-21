@@ -37,43 +37,95 @@ Template.ratings.helpers({
 Template.historic_ratings.helpers({
     historic_ratings: function (){
         return AverageRatings.find({}, { sort: { time: -1}});
-    },
-    generate_script: function(){
-
-        var ratings = AverageRatings.find({}, { sort: { time: -1}});
-        var dates = "['x', "
-        var f = DateFormats['standard'];
-
-        ratings.forEach(function(doc){
-           dates +=  "'" + moment(doc.time).format('YYYY-MM-DD') + "'"
-           dates += ","
-        });
-        dates += "]"
-        console.log(dates)
-        var script_string = "var chart = c3.generate({ bindto: '#chart'," +
-            "data: {x: 'x'," +
-            "  columns: [" +
-                 "['x', '2014-10-18', ]" + "," +
-                 //                 dates + "," +
-                 "['data1', 30, ]," +
-                 "['data2', 130, ]" +
-            " ]" +
-            "},axis: { x: { type: 'timeseries',  tick: { format: '%Y-%m-%d'}}}});"
-
-
-
-    //                                    setTimeout(function () {
-    //                                        chart.load({
-    //                                            columns: [
-    //                                                ['data3', 400, 500, 450, 700, 600, 500]
-    //                                            ]
-    //                                        });
-    //                                    }, 1000);
-
-        return new Handlebars.SafeString(script_string)
     }
+//    generate_script: function(){
+//
+//        var ratings = AverageRatings.find({}, { sort: { time: -1}});
+//        var dates = "['x', "
+//        var f = DateFormats['standard'];
+//
+//        ratings.forEach(function(doc){
+//           dates +=  "'" + moment(doc.time).format('YYYY-MM-DD') + "'"
+//           dates += ","
+//        });
+//        dates += "]"
+//        console.log(dates)
+//        var script_string = "var chart = c3.generate({ bindto: '#chart'," +
+//            "data: {x: 'x'," +
+//            "  columns: [" +
+//                 "['x', '2014-10-18', ]" + "," +
+//                 //                 dates + "," +
+//                 "['data1', 30, ]," +
+//                 "['data2', 130, ]" +
+//            " ]" +
+//            "},axis: { x: { type: 'timeseries',  tick: { format: '%Y-%m-%d'}}}});"
+//
+//
+//
+//    //                                    setTimeout(function () {
+//    //                                        chart.load({
+//    //                                            columns: [
+//    //                                                ['data3', 400, 500, 450, 700, 600, 500]
+//    //                                            ]
+//    //                                        });
+//    //                                    }, 1000);
+//
+//        return new Handlebars.SafeString(script_string)
+//    }
 });
 
+Template.chart_cp_overview.rendered = function () {
+    //var ratings = AverageRatings.find({}, { sort: { time: -1}});
+    var dates = ['x', ]
+    //var f = DateFormats['standard'];
+//    ratings.forEach(function(doc){
+//        dates.push(doc.time)
+//       //dates.push(moment(doc.time).format('YYYY-MM-DD'))
+//    });
+    AverageRatings.find({}, { sort: { time: -1 }}).forEach(
+        function (doc) {
+            dates.push(doc.time);
+            console.log(dates)
+        }
+    );
+
+    console.log(dates)
+    var chart = c3.generate({
+        data: {
+            x: 'x',
+            columns: [
+                ['x', '2013-01-01', '2013-01-02', '2013-01-03', '2013-01-04', '2013-01-05', '2013-01-06'],
+                ['data1', 30, 200, 100, 400, 150, 250],
+                ['data2', 130, 340, 200, 500, 250, 350]
+            ]
+        },
+        axis: {
+            x: {
+                type: 'timeseries',
+                tick: {
+                    format: '%Y-%m-%d'
+                }
+            }
+        }
+    });
+//var cpOverview = c3.generate({
+//    data: {
+//        columns: [
+//            ['data1', 30, 200],
+//            ['data2', 130, 100]
+//        ],
+//        type: 'bar',
+//        groups: [
+//            ['data1', 'data2']
+//        ]
+//    },
+//    grid: {
+//        y: {
+//            lines: [{value:0}]
+//        }
+//    }
+//});
+}
 Template.input_buttons.helpers({
     averages: function () {
         var count = Ratings.find().count();

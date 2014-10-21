@@ -192,14 +192,9 @@
                                     </tbody>
                                 </table>
                             </div>
+
                             <div class="tab-pane fade" id="profile">
-                                <script>
-
-                                {{ generate_script }}
-
-
-                                </script>
-                                <div id="chart"></div>
+                                {{> chart_cp_overview}}
                             </div>
 
                         </div>
@@ -219,4 +214,8 @@
             </div>
         </div>
     </div>
+</template>
+
+<template name="chart_cp_overview">
+    <div id="chart"></div>
 </template>
