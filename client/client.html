@@ -4,7 +4,12 @@
 
 <body>
 <div class="navbar navbar-default">
+    <div class="col-md-6 col-lg-6 col-sm-6">
     <h1 class="app-title">Rating App</h1>
+    </div>
+    <div class="col-md-6 col-lg-6 col-sm-6 text-right padding-top-15 padding-bottom-15">
+    {{> loginButtons align="right"}}
+    </div>
 </div>
 
 <div class="container stylish-well-1">
@@ -196,6 +201,7 @@
 
                             <div class="tab-pane fade" id="profile">
                             {{#if subscriptionReady}}
+                            Last updated: {{lastUpdate}}
                             {{> highchartsHelper chartId="test" width="100%" height="100%" chartObject=topGenresChart}}
                             {{/if}}
                             </div>

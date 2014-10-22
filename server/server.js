@@ -6,9 +6,6 @@ Meteor.publish("theAverageRatings", function(){
     return AverageRatings.find(); //({}, { sort: { time: -1 }});
 });
 
-/*Meteor.publish("theSomeCollection", function(){
-    return SomeCollection.find();
-});*/
 
 
 Meteor.startup(function () { // code to run on server at startup

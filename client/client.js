@@ -2,6 +2,8 @@
  * Templates- Template.template_name.template_var_name
  */
 
+Session.setDefault("lastUpdate", 0);
+
 subscriptionRatingHandle = Meteor.subscribe("theRatings");
 subscriptionAvgHandle = Meteor.subscribe("theAverageRatings");
 
@@ -43,19 +45,17 @@ Template.historic_ratings.helpers({
     historic_ratings: function (){
         return AverageRatings.find({}, { sort: { time: -1}});
     },
-    historic_ratings: function (){
+    topGenresChart: function (){
         var medians = []
         var averages = []
         var counts = []
         AverageRatings.find({}, { sort: { time: 1 }}).forEach(
             function (doc) {
-                //date = doc.time
                 averages.push([doc.time, doc.average]);
                 medians.push([doc.time, doc.median]);
                 counts.push([doc.time, doc.count]);
             }
         );
-        console.log('im here n loving it')
         return {
             chart: {
                 type: 'spline'
@@ -94,44 +94,13 @@ Template.historic_ratings.helpers({
 
         };
 
+    },
+    lastUpdate: function (){
+        return Session.get('lastUpdate');
     }
 });
 
 
-Template.historic_ratings.topGenresChart = function() {
-};
-
-//Template.chart_cp_overview.rendered = function () {
-//
-//    var dates = ['x', ]
-//
-//    AverageRatings.find({}, { sort: { time: -1 }}).forEach(
-//        function (doc) {
-//            dates.push(doc.time);
-//            console.log(dates)
-//        }
-//    );
-//
-//    console.log(dates)
-//    var chart = c3.generate({
-//        data: {
-//            x: 'x',
-//            columns: [
-//                ['x', '2013-01-01', '2013-01-02', '2013-01-03', '2013-01-04', '2013-01-05', '2013-01-06'],
-//                ['data1', 30, 200, 100, 400, 150, 250],
-//                ['data2', 130, 340, 200, 500, 250, 350]
-//            ]
-//        },
-//        axis: {
-//            x: {
-//                type: 'timeseries',
-//                tick: {
-//                    format: '%Y-%m-%d'
-//                }
-//            }
-//        }
-//    });
-//}
 
 Template.input_buttons.helpers({
     averages: function () {
@@ -178,6 +147,8 @@ Template.historic_ratings.events({
     'click tr.historic-rating': function(event){
         console.log('Removed rating id', event.currentTarget.id)
         AverageRatings.remove({'_id': event.currentTarget.id })
+        //Session.set('lastUpdate', new Date() );
+        Session.set('lastUpdate', Session.get('lastUpdate')+1 );
     }
 });
 
