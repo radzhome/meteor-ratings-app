@@ -2,9 +2,14 @@
  * Templates- Template.template_name.template_var_name
  */
 
-Meteor.subscribe("theRatings");
-Meteor.subscribe("theAverageRatings");
-//Meteor.subscribe("theSomeCollection");
+subscriptionRatingHandle = Meteor.subscribe("theRatings");
+subscriptionAvgHandle = Meteor.subscribe("theAverageRatings");
+
+Template.historic_ratings.subscriptionReady=function(){
+    // the handle has a special "ready" method, which is a reactive data source
+    // it indicates if the data provided by the publication has made its way to the client
+    return subscriptionAvgHandle.ready();
+};
 
 var DateFormats = {
        short: "MMMM DD YYYY",
@@ -37,46 +42,96 @@ Template.ratings.helpers({
 Template.historic_ratings.helpers({
     historic_ratings: function (){
         return AverageRatings.find({}, { sort: { time: -1}});
+    },
+    historic_ratings: function (){
+        var medians = []
+        var averages = []
+        var counts = []
+        AverageRatings.find({}, { sort: { time: 1 }}).forEach(
+            function (doc) {
+                //date = doc.time
+                averages.push([doc.time, doc.average]);
+                medians.push([doc.time, doc.median]);
+                counts.push([doc.time, doc.count]);
+            }
+        );
+        console.log('im here n loving it')
+        return {
+            chart: {
+                type: 'spline'
+            },
+            title: {
+                text: 'Historical Weekly Ratings'
+            },
+            subtitle: {
+                text: 'Weekly Ratings over Time'
+            },
+            xAxis: {
+                type: 'datetime',
+                dateTimeLabelFormats: {
+                    month: '%e. %b, %Y'
+                    //year: '%Y'
+                },
+                title: {
+                    text: 'Date'
+                }
+            },
+            yAxis: {
+                title: {
+                    text: 'Rating (/10)'
+                },
+                min: 0
+            },
+            tooltip: {
+                headerFormat: '<b>{series.name}</b><br>',
+                pointFormat: '{point.x:%e. %b}: {point.y:.2f}'
+            },
+
+            series: [{ name: 'Average', data: averages},
+                     { name: 'Median', data: medians },
+                     { name: 'Count', data: counts}
+            ]
+
+        };
+
     }
 });
 
-Template.chart_cp_overview.rendered = function () {
 
-    var dates = ['x', ]
+Template.historic_ratings.topGenresChart = function() {
+};
 
-    Meteor.subscribe("AverageRatings", function() {
-
-    AverageRatings.find({}, { sort: { time: -1 }}).forEach(
-        function (doc) {
-            dates.push(doc.time);
-            console.log(dates)
-        }
-    );
-
-    });
-
-
-
-    console.log(dates)
-    var chart = c3.generate({
-        data: {
-            x: 'x',
-            columns: [
-                ['x', '2013-01-01', '2013-01-02', '2013-01-03', '2013-01-04', '2013-01-05', '2013-01-06'],
-                ['data1', 30, 200, 100, 400, 150, 250],
-                ['data2', 130, 340, 200, 500, 250, 350]
-            ]
-        },
-        axis: {
-            x: {
-                type: 'timeseries',
-                tick: {
-                    format: '%Y-%m-%d'
-                }
-            }
-        }
-    });
-}
+//Template.chart_cp_overview.rendered = function () {
+//
+//    var dates = ['x', ]
+//
+//    AverageRatings.find({}, { sort: { time: -1 }}).forEach(
+//        function (doc) {
+//            dates.push(doc.time);
+//            console.log(dates)
+//        }
+//    );
+//
+//    console.log(dates)
+//    var chart = c3.generate({
+//        data: {
+//            x: 'x',
+//            columns: [
+//                ['x', '2013-01-01', '2013-01-02', '2013-01-03', '2013-01-04', '2013-01-05', '2013-01-06'],
+//                ['data1', 30, 200, 100, 400, 150, 250],
+//                ['data2', 130, 340, 200, 500, 250, 350]
+//            ]
+//        },
+//        axis: {
+//            x: {
+//                type: 'timeseries',
+//                tick: {
+//                    format: '%Y-%m-%d'
+//                }
+//            }
+//        }
+//    });
+//}
 
 Template.input_buttons.helpers({
     averages: function () {
@@ -91,7 +146,7 @@ Template.input_buttons.helpers({
                 }
             );
             if (count % 2 == 0) { //even
-                console.log("even number")
+                //console.log("even number")
                 var sum_mids = 0;
                 Ratings.find({}, { sort: { rating: 1 }, skip: mid_index - 1, limit: 2}).forEach(
                     function (doc) {
@@ -184,3 +239,11 @@ Template.input.events = {
     }
 }
 
+
+// when the historic ratings template is rendered
+Template.historic_ratings.rendered = function () {
+    $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+      //alert(e.target); // activated tab
+      $(window).resize();
+    });
+};
