@@ -167,7 +167,10 @@ Template.input_buttons.events({
             "count": count
         });
         Meteor.call('removeAllRatings');
+
         $('.ratings-status').html('<div class="alert alert-success">Data Saved!</div>')
+        // Refresh the graph since its not reactive
+        location.reload();
     }
 });
 
