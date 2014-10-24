@@ -177,6 +177,7 @@ Template.input_buttons.events({
 Template.historic_ratings.events({
    'click button.delete-all-avg': function(){
        Meteor.call('removeAllAverageRatings')
+       location.reload(); // refresh browser since graphs not reactive
    }
 });
 
@@ -217,7 +218,6 @@ Template.input.events = {
 // when the historic ratings template is rendered
 Template.historic_ratings.rendered = function () {
     $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-      //alert(e.target); // activated tab
-      $(window).resize();
+      $(window).resize();  //alert(e.target); // activated tab
     });
 };

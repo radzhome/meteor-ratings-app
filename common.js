@@ -3,7 +3,6 @@
 */
 Ratings = new Meteor.Collection('ratings');
 AverageRatings = new Meteor.Collection('average_ratings');
-//SomeCollection = new Meteor.Collection('some_collection');
 
 Ratings.allow({
     'insert': function (userId, doc) {
