@@ -2,7 +2,7 @@
  * Templates- Template.template_name.template_var_name
  */
 
-Session.setDefault("lastUpdate", 0);
+Session.setDefault("lastUpdate", new Date());
 
 subscriptionRatingHandle = Meteor.subscribe("theRatings");
 subscriptionAvgHandle = Meteor.subscribe("theAverageRatings");
@@ -18,6 +18,14 @@ var DateFormats = {
        long: "dddd MM.DD.YYYY HH:mm",
        standard: "YYYY-MM-DD" //%Y-%m-%d
 };
+
+
+/* SET GMT + 5 , no UTC */
+Highcharts.setOptions({
+    global: {
+        timezoneOffset: 4 * 60
+    }
+});
 
 UI.registerHelper("formatDate", function(datetime, format) {
   if (moment) {  // Installed moment, meteor add mrt:moment
@@ -56,6 +64,7 @@ Template.historic_ratings.helpers({
                 counts.push([doc.time, doc.count]);
             }
         );
+        Session.set('lastUpdate', new Date() );
         return {
             chart: {
                 type: 'spline'
@@ -147,8 +156,7 @@ Template.historic_ratings.events({
     'click tr.historic-rating': function(event){
         console.log('Removed rating id', event.currentTarget.id)
         AverageRatings.remove({'_id': event.currentTarget.id })
-        //Session.set('lastUpdate', new Date() );
-        Session.set('lastUpdate', Session.get('lastUpdate')+1 );
+        //Session.set('lastUpdate', Session.get('lastUpdate')+1 );
     }
 });
 
