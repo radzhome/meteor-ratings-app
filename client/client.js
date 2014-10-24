@@ -178,14 +178,19 @@ Template.input_buttons.events({
 
         $('.ratings-status').html('<div class="alert alert-success">Data Saved!</div>')
         // Refresh the graph since its not reactive
-        location.reload();
+        setTimeout( function() {
+            location.reload(); // refresh browser since graphs not reactive
+        }, 1000)
     }
 });
 
 Template.historic_ratings.events({
    'click button.delete-all-avg': function(){
        Meteor.call('removeAllAverageRatings')
-       location.reload(); // refresh browser since graphs not reactive
+       setTimeout( function() {
+           location.reload(); // refresh browser since graphs not reactive
+       }, 1000)
+
    }
 });
 
