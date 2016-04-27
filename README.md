@@ -9,7 +9,7 @@ https://atmospherejs.com
 http://average-rating.meteor.com/
 
 
-Created by `Radomir Wojcik <http://radtek.ca`
+Created by `Radtek <http://radtek.ca`
 
 ========
 Overview
